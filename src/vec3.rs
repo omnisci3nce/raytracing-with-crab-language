@@ -7,7 +7,7 @@ pub struct Vec3 {
   pub z: f64
 }
 
-// aliases
+// type aliases
 pub type Color = Vec3;
 pub type Point3 = Vec3;
 
