@@ -24,12 +24,21 @@ impl Sub for Vec3 {
     Self {x: self.x - rhs.x, y: self.y - rhs.y, z: self.z - rhs.z}
   }
 }
-
 impl Mul for Vec3 {
   type Output = Self;
 
+  /* pair-wise multiply */
   fn mul(self, rhs: Self) -> Self {
     Self {x: self.x * rhs.x, y: self.y * rhs.y, z: self.z * rhs.z}
+  }
+}
+
+impl Mul<f64> for Vec3 {
+  type Output = Self;
+
+  /* multiply by scalar */
+  fn mul(self, rhs: f64) -> Self {
+    Self {x: self.x * rhs, y: self.y * rhs, z: self.z * rhs}
   }
 }
 
@@ -44,8 +53,18 @@ impl Neg for Vec3 {
 impl Div for Vec3 {
   type Output = Self;
 
+  /* pair-wise divide */
   fn div(self, rhs: Self) -> Self {
     Self {x: self.x / rhs.x, y: self.y / rhs.y, z: self.z / rhs.z}
+  }
+}
+
+impl Div<f64> for Vec3 {
+  type Output = Self;
+
+  /* divide by scalar */
+  fn div(self, rhs: f64) -> Self {
+    self * (1.0/rhs)
   }
 }
 
@@ -56,6 +75,24 @@ impl Vec3 {
 
   fn length_squared(&self) -> f64 {
     self.x * self.x + self.y * self.y + self.z * self.z
+  }
+
+  fn dot(u: &Self, v: &Self) -> f64 {
+    u.x * v.x + u.y * v.y + u.z * v.z
+  }
+
+  fn cross(u: &Self, v: &Self) -> Vec3 {
+    Vec3 {
+      x: u.y * v.z - u.z * v.y,
+      y: u.z * v.x - u.x * v.z,
+      z: u.x * v.y - u.y * v.x
+    }
+  }
+  
+  fn unit_vector(self) -> Vec3 {
+    //self / self.length()
+    let k = 1.0 / self.length();
+    self * k
   }
 }
 
@@ -87,5 +124,11 @@ mod tests {
     let result = v1.length();
     assert_eq!(result, 5.0);
     assert_eq!(v1.length_squared(), 25.0);
+  }
+
+  #[test]
+  fn unit_vector_should_have_length_1() {
+    let u = Vec3{x:10.5,y:100.0,z:-4.0};
+    assert_eq!(f64::round(u.unit_vector().length()), 1.0);
   }
 }
