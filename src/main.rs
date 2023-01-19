@@ -1,3 +1,4 @@
+mod vec3;
 const IMAGE_WIDTH : i32 = 256;
 const IMAGE_HEIGHT : i32 = 256;
 
