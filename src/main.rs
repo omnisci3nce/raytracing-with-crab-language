@@ -1,4 +1,7 @@
 mod vec3;
+mod utils;
+use crate::vec3::Vec3;
+use crate::utils::write_color;
 const IMAGE_WIDTH : i32 = 256;
 const IMAGE_HEIGHT : i32 = 256;
 
@@ -7,16 +10,14 @@ fn main() {
   for j in (0..IMAGE_HEIGHT).rev() {
     eprintln!("\rScanlines remaining: {}", j);
     for i in 0..IMAGE_WIDTH {
-      let r = i as f64 / (IMAGE_WIDTH as f64 - 1.0);
-      let g = j as f64 / (IMAGE_HEIGHT as f64 - 1.0);
-      let b = 0.25;
-
-      let ir = (255.999 * r) as i32;
-      let ig = (255.999 * g) as i32;
-      let ib = (255.999 * b) as i32;
-      println!("{} {} {}", ir, ig, ib);
+      let pixel_color = Vec3{
+        x: i as f64 / (IMAGE_WIDTH as f64 - 1.0),
+        y: j as f64 / (IMAGE_HEIGHT as f64 - 1.0),
+        z: 0.25
+      };
+      write_color(pixel_color);
     }
   }
 
-  println!("Done.");
+  eprintln!("Done.");
 }

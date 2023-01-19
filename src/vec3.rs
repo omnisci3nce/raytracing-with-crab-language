@@ -2,10 +2,14 @@ use std::ops::{Add, Sub, Mul, Neg, Div};
 
 #[derive(Debug, Default)]
 pub struct Vec3 {
-  x: f64,
-  y: f64,
-  z: f64
+  pub x: f64,
+  pub y: f64,
+  pub z: f64
 }
+
+// aliases
+pub type Color = Vec3;
+pub type Point3 = Vec3;
 
 // Operator Overloading: https://doc.rust-lang.org/rust-by-example/trait/ops.html
 
@@ -77,10 +81,12 @@ impl Vec3 {
     self.x * self.x + self.y * self.y + self.z * self.z
   }
 
+  /* dot product */
   fn dot(u: &Self, v: &Self) -> f64 {
     u.x * v.x + u.y * v.y + u.z * v.z
   }
 
+  /* cross product */
   fn cross(u: &Self, v: &Self) -> Vec3 {
     Vec3 {
       x: u.y * v.z - u.z * v.y,
