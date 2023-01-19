@@ -1,4 +1,4 @@
-use std::ops::{Add, Sub};
+use std::ops::{Add, Sub, Mul, Neg, Div};
 
 #[derive(Debug, Default)]
 pub struct Vec3 {
@@ -6,8 +6,6 @@ pub struct Vec3 {
   y: f64,
   z: f64
 }
-
-//impl Vec3 {
 
 // Operator Overloading: https://doc.rust-lang.org/rust-by-example/trait/ops.html
 
@@ -24,6 +22,40 @@ impl Sub for Vec3 {
 
   fn sub(self, rhs: Self) -> Self { // rhs = right-hand side
     Self {x: self.x - rhs.x, y: self.y - rhs.y, z: self.z - rhs.z}
+  }
+}
+
+impl Mul for Vec3 {
+  type Output = Self;
+
+  fn mul(self, rhs: Self) -> Self {
+    Self {x: self.x * rhs.x, y: self.y * rhs.y, z: self.z * rhs.z}
+  }
+}
+
+impl Neg for Vec3 {
+  type Output = Self;
+
+  fn neg(self) -> Self {
+    Self {x: -self.x, y: -self.y, z: -self.z }
+  }
+}
+
+impl Div for Vec3 {
+  type Output = Self;
+
+  fn div(self, rhs: Self) -> Self {
+    Self {x: self.x / rhs.x, y: self.y / rhs.y, z: self.z / rhs.z}
+  }
+}
+
+impl Vec3 {
+  fn length(&self) -> f64 {
+    f64::sqrt(self.length_squared())
+  }
+
+  fn length_squared(&self) -> f64 {
+    self.x * self.x + self.y * self.y + self.z * self.z
   }
 }
 
@@ -48,5 +80,12 @@ mod tests {
     assert_eq!(result.x, 0.0);
     assert_eq!(result.y, 2.0);
     assert_eq!(result.z, 0.0);
+  }
+  #[test]
+  fn length_pythag() { // triangle with sides 3 & 4, hypotenuse = length 5
+    let v1 = Vec3{x:4.,y:3.,z:0.};
+    let result = v1.length();
+    assert_eq!(result, 5.0);
+    assert_eq!(v1.length_squared(), 25.0);
   }
 }
