@@ -1,6 +1,6 @@
 use std::ops::{Add, Sub, Mul, Neg, Div};
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Clone, Copy)]
 pub struct Vec3 {
   pub x: f64,
   pub y: f64,
@@ -73,21 +73,21 @@ impl Div<f64> for Vec3 {
 }
 
 impl Vec3 {
-  fn length(&self) -> f64 {
+  pub fn length(&self) -> f64 {
     f64::sqrt(self.length_squared())
   }
 
-  fn length_squared(&self) -> f64 {
+  pub fn length_squared(&self) -> f64 {
     self.x * self.x + self.y * self.y + self.z * self.z
   }
 
   /* dot product */
-  fn dot(u: &Self, v: &Self) -> f64 {
+  pub fn dot(u: &Self, v: &Self) -> f64 {
     u.x * v.x + u.y * v.y + u.z * v.z
   }
 
   /* cross product */
-  fn cross(u: &Self, v: &Self) -> Vec3 {
+  pub fn cross(u: &Self, v: &Self) -> Vec3 {
     Vec3 {
       x: u.y * v.z - u.z * v.y,
       y: u.z * v.x - u.x * v.z,
@@ -95,7 +95,7 @@ impl Vec3 {
     }
   }
   
-  fn unit_vector(self) -> Vec3 {
+  pub fn unit_vector(self) -> Vec3 {
     //self / self.length()
     let k = 1.0 / self.length();
     self * k
