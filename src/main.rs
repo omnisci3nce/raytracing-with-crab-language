@@ -12,14 +12,14 @@ const IMAGE_HEIGHT : i32 =(IMAGE_WIDTH as f64 / ASPECT_RATIO) as i32;
 
 fn hit_sphere(center: &Point3, radius: f64, r: &Ray) -> f64 {
   let oc = r.origin - *center;
-  let a = Vec3::dot(&r.direction, &r.direction);
-  let b = Vec3::dot(&oc, &r.direction) * 2.0;
-  let c = Vec3::dot(&oc, &oc) - (radius * radius);
-  let discriminant = b * b -  (a * c) * 4.0;
+  let a = r.direction.length_squared();
+  let half_b = Vec3::dot(&oc, &r.direction);
+  let c = oc.length_squared() - radius * radius;
+  let discriminant = half_b * half_b -  (a * c);
   if discriminant < 0.0 {
     -1.0
   } else {
-    (-b - discriminant.sqrt()) / (a * 2.0)
+    (-half_b - discriminant.sqrt()) / a
   }
 }
 
